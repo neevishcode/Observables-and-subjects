@@ -8,37 +8,56 @@ import { Observable, Subject } from 'rxjs';
   standalone: true,
   template: `
     <h1>Hello from {{ name }}!</h1>
-    <a target="_blank" href="https://angular.dev/overview">
-      Learn more about Angular
-    </a>
     <h2>Observable</h2>
-    <div>{{obserableobjData}}</div>
+    <div>Observable subs 1: {{obserableobjData1}}</div>
+    <div>Observable subs 2: {{obserableobjData2}}</div>
+    <div>Observable subs 3: {{obserableobjData3}}</div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <h2> Subject </h2>
-    <div>{{subjectData}}</div>
+    <div>Subject subs 1: {{subjectData1}}</div>
+    <div>Subject subs 2: {{subjectData1}}</div>
+    <div>Subject subs 3: {{subjectData1}}</div>
   `,
 })
 export class App implements OnInit {
-  name = 'Angular';
+  name = "Angular's Observables and Subjects";
   obserableobj: any;
-  obserableobjData: any;
+  obserableobjData1: any;
+  obserableobjData2: any;
+  obserableobjData3: any;
   objectUnbscribe: any;
   subjectObj: any;
-  subjectData: any;
+  subjectData1: any;
+  subjectData2: any;
+  subjectData3: any;
 
   ngOnInit() {
     // Observable example 
     this.obserableobj = new Observable(this.AsyncSream);
     console.log('this.observable', this.obserableobj);
-    this.objectUnbscribe = this.obserableobj.subscribe((res: any) =>
+    this.obserableobj.subscribe((res: any) =>
       this.Listner(res)
+    );
+    this.obserableobj.subscribe((res: any) =>
+      this.obserableobjData2 = res
+    );
+    this.obserableobj.subscribe((res: any) =>
+      this.obserableobjData3 = res
     );
 
     // Subject Example
     this.subjectObj = new Subject()
     this.subjectObj.subscribe((res:any) => {
-    this.subjectData = res;
+    this.subjectData1 = res;
     console.log(res);  
+    });
+    this.subjectObj.subscribe((res:any) => {
+      this.subjectData2 = res;
+      console.log(res);  
+    });
+    this.subjectObj.subscribe((res:any) => {
+        this.subjectData3 = res;
+        console.log(res);  
     });
 
     this.subjectObj.next(Math.random());
@@ -46,19 +65,17 @@ export class App implements OnInit {
   }
 
   Listner(res: any) {
-    this.obserableobjData = res;
+    this.obserableobjData1 = res;
     console.log(res);
   }
 
   // For Observables
   AsyncSream(Observer: any) {
-    var time = setInterval(() => {
-      Observer.next(Math.random());
-    }, 1000);
+    // var time = setInterval(() => {
+    //   Observer.next(Math.random());
+    // }, 1000);
+    var time = Observer.next(Math.random())
   }
-
-  //Subject
-
 
   ngOnDestroy() {
     this.objectUnbscribe.unsubsribe();
